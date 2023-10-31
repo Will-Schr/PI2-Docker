@@ -7,3 +7,4 @@ cd /PI2
 conda activate pi
 jupyter lab --allow-root --ip='*' --no-browser --NotebookApp.token='' --NotebookApp.password='' &
 python /PI2/pi-server/server.py &
+sleep 2m
