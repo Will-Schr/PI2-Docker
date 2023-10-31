@@ -5,7 +5,7 @@ eval "$(conda shell.bash hook)"
 conda run -n pi
 
 # Set openapi key if it exists
-if [$OPENAI_APIKEY_INPUT != "none"]; then
+if [ $OPENAI_APIKEY_INPUT != "none" ]; then
     export OPENAI_APIKEY=$OPENAI_APIKEY_INPUT
 fi
 # Start server.py and jupyterlab
