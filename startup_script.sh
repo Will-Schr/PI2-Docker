@@ -1,8 +1,6 @@
 #!/bin/bash
 
 eval "$(conda shell.bash hook)"
-# Start conda pi environment
-conda run -n pi
 
 # Set openapi key if it exists
 if [ $OPENAI_APIKEY_INPUT != "none" ]; then
@@ -10,5 +8,6 @@ if [ $OPENAI_APIKEY_INPUT != "none" ]; then
 fi
 # Start server.py and jupyterlab
 cd /PI2
-nohup jupyter lab --allow-root --ip='*' --no-browser --NotebookApp.token='' --NotebookApp.password='' &
-nohup python /PI2/pi-server/server.py &
+conda run -n pi
+jupyter lab --allow-root --ip='*' --no-browser --NotebookApp.token='' --NotebookApp.password='' &
+python /PI2/pi-server/server.py &
