@@ -10,4 +10,5 @@ if [$OPENAI_APIKEY_INPUT != "none"]; then
 fi
 # Start server.py and jupyterlab
 cd /PI2
-nohup jupyter lab --allow-root --ip='*' --no-browser --NotebookApp.token='' --NotebookApp.password='' & nohup python /PI2/pi-server/server.py &
+nohup jupyter lab --allow-root --ip='*' --no-browser --NotebookApp.token='' --NotebookApp.password='' &
+nohup python /PI2/pi-server/server.py &
