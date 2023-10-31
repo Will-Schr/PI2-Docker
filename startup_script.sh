@@ -1,5 +1,6 @@
 #!/bin/bash
 
+eval "$(conda shell.bash hook)"
 # Start conda pi environment
 conda run -n pi
 
@@ -7,6 +8,6 @@ conda run -n pi
 if [$OPENAI_APIKEY_INPUT != "none"]; then
     export OPENAI_APIKEY=$OPENAI_APIKEY_INPUT
 
-# Start server.py
-cd /PI2/pi-server
-nohup python bgservice.py &
+# Start server.py and jupyterlab
+cd /PI2
+nohup jupyter lab --allow-root --ip='*' --no-browser --NotebookApp.token='' --NotebookApp.password='' & nohup python /PI2/pi-server/server.py &
