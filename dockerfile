@@ -1,6 +1,6 @@
 FROM ubuntu:latest
 SHELL ["/bin/bash", "-c"]
-ENV OPENAI_APIKEY_INPUT = "none"
+ENV OPENAI_APIKEY "none"
 # Update and set locale
 RUN apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* \
 	&& localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
@@ -17,7 +17,7 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
 # Put conda in path so we can use conda activate
 ENV PATH=$CONDA_DIR/bin:$PATH
 # Create conda env
-RUN conda init
+RUN conda init bash
 RUN conda create --name pi --override-channels --strict-channel-priority -c conda-forge -c nodefaults jupyterlab=3 cookiecutter nodejs jupyter-packaging git -y
 # Activate pi
 SHELL ["conda", "run", "-n", "pi", "/bin/bash", "-c"]
@@ -42,4 +42,13 @@ RUN jlpm run build
 # Set up server
 WORKDIR /PI2/pi-server
 RUN pip install -r requirements.txt
+# PI2 Port
 EXPOSE 8000
+# Jupyter Lab Port
+EXPOSE 8888
+# CMD ["conda", "activate", "pi", "&&", "jupyter", "lab", "--allow-root", "--ip='*'", "--no-browser", "--NotebookApp.token=''", "--NotebookApp.password=''", "&", "python", "/PI2/pi-server/server.py", "&"]
+WORKDIR /
+ADD https://raw.githubusercontent.com/Will-Schr/PI2-Docker/main/startup_script.sh /
+RUN chmod +x startup_script.sh
+# SHELL ["/bin/bash", "-c"]
+CMD ["/bin/bash","/startup_script.sh"]
